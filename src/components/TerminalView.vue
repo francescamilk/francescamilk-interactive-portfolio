@@ -12,8 +12,8 @@
             <p :class="{ 
                 'txt': true, 
                 'error': line.includes('recognised'),
-                'success': line.includes('successfully') }
-            ">
+                'success': line.includes('successfully') }"
+            >
                 {{ line ? line : '\u00A0' }}
             </p>
         </div>
