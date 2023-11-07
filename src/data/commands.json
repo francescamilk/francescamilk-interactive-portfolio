@@ -5,6 +5,7 @@
         "CONTACT.............Displays my contact information",
         "CV..................Downloads a copy of my resumé",
         "EXPERIENCE..........Displays my professional experience",
+        "PROJECTS............Displays my past freelance projects",
         "SKILLS..............Displays my tech stack",
         "",
         "Settings:",
