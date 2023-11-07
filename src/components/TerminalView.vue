@@ -1,27 +1,15 @@
 <template>
     <div id="terminal">
         <div id="terminalHeader">
-            <h1 class="header txt">Francesca Milk's Playable Portfolio</h1>
-            <p class="header txt">Type HELP to see the full list of commands.</p>
+            <h1 class="txt header">Francesca Milk's Interactive Portfolio</h1>
+            <p class="txt header">Type HELP to see the full list of commands.</p>
         </div>
         <div id="prompt">
             <p class="txt">RT C:\Users\{{ agency }}> </p>
-            <input type="text" class="txt">
+            <input type="text" class="txt" @keydown.enter="getInput">
         </div>
         <div id="output">
-            <p class="txt formatted">
-                Work:<br>
-                Freelance Web Developer...................2021-Present<br>
-                Teacher & Batch Manager @ Le Wagon........2021-Present<br>
-                Freelance Copywriter (&Wordpress Dev).....2018-2019<br>
-                Lead Copywriter & Marketer................2017-2019<br>
-                <br>
-                Education:<br>
-                UX / UI Online Specialization.............California Institue of Arts<br>
-                Full-Stack Web Development Bootcamp.......Le Wagon<br>
-                Ecommerce & SEO Technical Course..........Euroqualità<br>
-                Graphics & Advertising....................High School Diploma<br>
-            </p>
+            <p class="txt">{{ output }}</p>
         </div>
     </div>
 </template>
@@ -31,6 +19,8 @@ export default {
   data() {
     return {
       agency: null,
+      input: null,
+      output: null
     }
   },
   methods: {
@@ -38,10 +28,15 @@ export default {
       const urlParams = new URLSearchParams(window.location.search)
       return urlParams.get('a')
     },
+    getInput(event) {
+      if (event.key === 'Enter') {
+        this.input = event.target.value;
+      }
+    }
   },
   mounted() {
     this.agency = this.getAgency()
-  },
+  }
 }
 </script>
 
