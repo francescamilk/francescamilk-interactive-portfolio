@@ -1,0 +1,28 @@
+{
+    "HELP": [
+        "Main commands:",
+        "ABOUT...............Displays an introduction about me",
+        "CONTACT.............Displays my contact information",
+        "CV..................Downloads a copy of my resumé",
+        "EXPERIENCE..........Displays my professional experience",
+        "SKILLS..............Displays my tech stack",
+        " ",
+        "Settings:",
+        "FONT................Sets the font size for the terminal",
+        "HEADER..............Sets the header for the terminal",
+        "THEME...............Sets the colour scheme for the terminal"
+    ],
+    "EXPERIENCE": [
+        "Work:",
+        "Freelance Web Developer.........................2021-Present",
+        "Teacher & Batch Manager @ Le Wagon..............2021 - Present",
+        "Freelance Copywriter( & Wordpress Dev)..........2018 - 2019",
+        "Lead Copywriter & Marketer......................2017 - 2019",
+        " ",
+        "Education:",
+        "UX / UI Online Specialization...................California Institue of Arts",
+        "Full - Stack Web Development Bootcamp...........Le Wagon",
+        "Ecommerce & SEO Technical Course................Euroqualità",
+        "Graphics & Advertising..........................High School Diploma"
+    ]
+}

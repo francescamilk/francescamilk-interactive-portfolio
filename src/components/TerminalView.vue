@@ -8,35 +8,47 @@
             <p class="txt">RT C:\Users\{{ agency }}> </p>
             <input type="text" class="txt" @keydown.enter="getInput">
         </div>
-        <div id="output">
-            <p class="txt">{{ output }}</p>
+        <div id="output" v-for="line in output" :key="line">
+            <p class="txt">{{ line }}</p>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      agency: null,
-      input: null,
-      output: null
-    }
-  },
-  methods: {
-    getAgency() {
-      const urlParams = new URLSearchParams(window.location.search)
-      return urlParams.get('a')
+    data() {
+        return {
+            agency: null,
+            input: null,
+            output: null,
+            commands: {}
+        }
     },
-    getInput(event) {
-      if (event.key === 'Enter') {
-        this.input = event.target.value;
-      }
+    methods: {
+        getAgency() {
+            const urlParams = new URLSearchParams(window.location.search)
+            return urlParams.get('a')
+        },
+        fillCommands () {
+            import('@/data/commands.json')
+            .then(commandsData => {
+                this.commands = commandsData
+            })
+        },
+        getInput(event) {
+            if (event.key === 'Enter') {
+                this.input = event.target.value.toUpperCase()
+                this.computeOutput()
+            }
+        },
+        computeOutput() {
+            this.output = this.commands[this.input]
+        }
+    },
+    mounted() {
+        this.agency = this.getAgency()
+        this.fillCommands()
     }
-  },
-  mounted() {
-    this.agency = this.getAgency()
-  }
 }
 </script>
 
@@ -44,10 +56,8 @@ export default {
 @import '@/assets/config/variables.scss';
 
 #terminal {
-    width: 100vw;
-    height: 100vh;
-    min-width: 100vw;
-    min-height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 #terminalHeader {

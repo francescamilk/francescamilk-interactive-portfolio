@@ -19,7 +19,7 @@ export default {
 body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 #app {
@@ -27,6 +27,8 @@ body {
     height: 100vh;
     min-width: 100vw;
     min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
     font-family: 'Roboto Mono', monospace;
     background: $backgroundColor;
     color: $fontColor;
