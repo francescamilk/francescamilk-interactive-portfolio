@@ -32,6 +32,5 @@ body {
     font-family: 'Roboto Mono', monospace;
     background: $backgroundColor;
     color: $fontColor;
-    padding: 2rem;
 }
 </style>

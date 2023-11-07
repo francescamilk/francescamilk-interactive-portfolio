@@ -1,23 +1,31 @@
 <template>
-    <div id="terminal">
-        <div id="terminalHeader">
+    <main>
+        <section id="terminalHeader">
             <h1 class="txt header">Francesca Milk's Interactive Portfolio</h1>
             <p class="txt header">Type HELP to see the full list of commands.</p>
-        </div>
-        <div id="prompt">
-            <p class="txt">RT C:\Users\{{ agency }}> </p>
-            <input type="text" class="txt" @keydown.enter="getInput">
-        </div>
-        <div id="output" v-for="line in output" :key="line">
-            <p :class="{ 
-                'txt': true, 
-                'error': line.includes('recognised'),
-                'success': line.includes('successfully') }"
-            >
-                {{ line ? line : '\u00A0' }}
-            </p>
-        </div>
-    </div>
+        </section>
+        <section id="previous" v-for="io in previous" :key="io">
+            <div class="prompt">
+                <p class="txt">RT C:\Users\{{ agency }}> </p>
+                <p class="txt command">{{ io.input }}</p>
+            </div>
+            <div class="output" v-for="line in io.output" :key="line">
+                <p :class="{ 
+                    'txt': true, 
+                    'error': line.includes('recognised'),
+                    'success': line.includes('successfully') }"
+                    >
+                    {{ line ? line : '\u00A0' }}
+                </p>
+            </div>
+        </section>
+        <section id="current">
+            <div class="prompt">
+                <p class="txt">RT C:\Users\{{ agency }}> </p>
+                <input type="text" class="txt" @keydown.enter="getInput">
+            </div>
+        </section>
+    </main>
 </template>
 
 <script>
@@ -27,8 +35,7 @@ export default {
     data() {
         return {
             agency: null,
-            input: null,
-            output: null,
+            previous: [],
             commands: {}
         }
     },
@@ -45,12 +52,11 @@ export default {
         },
         getInput(event) {
             if (event.key === 'Enter') {
-                const input = event.target.value.toUpperCase()
+                const userInput = event.target.value.toUpperCase()
+                this.computeOutput(userInput)
+                event.target.value = ''
                 
-                this.input = input
-                this.computeOutput()
-                
-                if (input === 'CV') {
+                if (userInput === 'CV') {
                     const props = {
                         title: 'FSantoriello_FullStack_WebDeveloper.png', 
                         src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png') 
@@ -59,15 +65,18 @@ export default {
                 }
             }
         },
-        computeOutput() {
-            if (this.commands[this.input]) {
-                this.output = this.commands[this.input]
-            } else {
-                this.output = [
-                `FATAL; The term or expression '${this.input}' is not recognised. `,
-                'Type HELP for the full list of recognised commands.'
-                ]     
+        computeOutput(input) {
+            const output = this.commands[input]
+            const error = [
+            `FATAL; The term or expression '${input}' is not recognised. `,
+            'Type HELP for the full list of recognised commands.'
+            ]
+            
+            const inputOutput = {
+                input: input,
+                output: output ? output : error
             }
+            this.previous.push(inputOutput)
         },
         triggerFileDownload(response, title) {
             const url = window.URL.createObjectURL(new Blob([response.data]))
@@ -99,20 +108,23 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/config/variables.scss';
 
-#terminal {
+main {
     width: 100%;
     height: 100%;
+    overflow: hidden scroll;
+    padding: 2rem;
 }
 
-#terminalHeader {
-    margin-bottom: 2rem;
+#terminalHeader,
+#previous {
+    margin-bottom: 1.5rem;
 }
-
-#prompt {
+.prompt {
     display: flex;
     
     input,
-    input:focus {
+    input:focus,
+    .command {
         background: transparent;
         box-shadow: none;
         border: none;
