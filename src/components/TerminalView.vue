@@ -1,31 +1,37 @@
 <template>
-    <main>
-        <section id="terminalHeader">
-            <h1 class="txt header">Francesca Milk's Interactive Portfolio</h1>
-            <p class="txt header">Type HELP to see the full list of commands.</p>
-        </section>
-        <section id="previous" v-for="io in previous" :key="io">
-            <div class="prompt">
-                <p class="txt">RT C:\Users\{{ agency }}> </p>
-                <p class="txt command">{{ io.input }}</p>
-            </div>
-            <div class="output" v-for="line in io.output" :key="line">
-                <p :class="{ 
-                    'txt': true, 
-                    'error': line.includes('recognised'),
-                    'success': line.includes('successfully') }"
+    <div id="frame">
+        <div id="terminal">
+            <section id="terminalHeader">
+                <h1 class="txt header">Francesca Milk's Interactive Portfolio</h1>
+                <p class="txt header">Type HELP to see the full list of commands.</p>
+            </section>
+            <section id="previous" v-for="io in previous" :key="io">
+                <div class="prompt">
+                    <p class="txt">RT C:\Users\{{ agency }}> </p>
+                    <p class="txt command">{{ io.input }}</p>
+                </div>
+                <div class="output" v-for="line in io.output" :key="line">
+                    <p :class="{ 
+                        'txt': true, 
+                        'error': line.includes('recognised'),
+                        'success': line.includes('successfully') }"
+                        >
+                        {{ line ? line : '\u00A0' }}
+                    </p>
+                </div>
+            </section>
+            <section id="current">
+                <div class="prompt">
+                    <p class="txt">RT C:\Users\{{ agency }}> </p>
+                    <input type="text" class="txt"
+                        v-model="currentInput"
+                        @keydown="getInput"
+                        ref="inputElement"
                     >
-                    {{ line ? line : '\u00A0' }}
-                </p>
-            </div>
-        </section>
-        <section id="current">
-            <div class="prompt">
-                <p class="txt">RT C:\Users\{{ agency }}> </p>
-                <input type="text" class="txt" @keydown.enter="getInput">
-            </div>
-        </section>
-    </main>
+                </div>
+            </section>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -35,6 +41,8 @@ export default {
     data() {
         return {
             agency: null,
+            currentInput: '',
+            arrowCounter: 0,
             previous: [],
             commands: {}
         }
@@ -52,31 +60,40 @@ export default {
         },
         getInput(event) {
             if (event.key === 'Enter') {
-                const userInput = event.target.value.toUpperCase()
-                this.computeOutput(userInput)
-                event.target.value = ''
-                
-                if (userInput === 'CV') {
+                if (this.currentInput.toUpperCase() === 'CLEAR') {
+                    this.clearPrevious()
+                } else if (this.currentInput.toUpperCase() === 'CV') {
                     const props = {
                         title: 'FSantoriello_FullStack_WebDeveloper.png', 
                         src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png') 
                     }
                     this.downloadWithAxios(props.src, props.title)
+                } else {
+                    this.computeOutput()
+                    this.currentInput = ''
+                    this.resetArrowCounter()
                 }
+            } else if (event.key === 'ArrowUp' && this. isSafeToArrow()) {
+                this.currentInput = this.previous[this.arrowCounter].input
+                this.increaseArrowCounter()
             }
         },
-        computeOutput(input) {
-            const output = this.commands[input]
+        computeOutput() {
+            const output = this.commands[this.currentInput.toUpperCase()]
             const error = [
-            `FATAL; The term or expression '${input}' is not recognised. `,
+            `FATAL; The term or expression '${this.currentInput}' is not recognised. `,
             'Type HELP for the full list of recognised commands.'
             ]
             
             const inputOutput = {
-                input: input,
+                input: this.currentInput,
                 output: output ? output : error
             }
             this.previous.push(inputOutput)
+            this.resetArrowCounter()
+            this.$nextTick(() => {
+                this.scrollToBottom()
+            })        
         },
         triggerFileDownload(response, title) {
             const url = window.URL.createObjectURL(new Blob([response.data]))
@@ -95,12 +112,33 @@ export default {
             .then((response) => {
                 this.triggerFileDownload(response, title)
             })
-            .catch(() => console.log('error occured'))
+            .catch(() => console.log('Error during download'))
+        },
+        scrollToBottom() {
+            const terminal = this.$el.querySelector('#terminal')
+            terminal.scrollIntoView({ block: 'end' })
+        },
+        focusInput() {
+            this.$refs.inputElement.focus()
+        },
+        resetArrowCounter() {
+            this.arrowCounter = this.previous.length - 1
+        },
+        increaseArrowCounter() {
+            this.arrowCounter -= 1
+        },
+        isSafeToArrow() {
+            return this.previous.length > 0 && this.arrowCounter >= 0
+        },
+        clearPrevious() {
+            this.previous.splice(0, this.previous.length)
+            this.currentInput = ''
         }
     },
     mounted() {
         this.agency = this.getAgency()
         this.fillCommands()
+        document.addEventListener('click', this.focusInput)
     }
 }
 </script>
@@ -108,10 +146,14 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/config/variables.scss';
 
-main {
+#frame {
     width: 100%;
     height: 100%;
-    overflow: hidden scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#terminal {
     padding: 2rem;
 }
 

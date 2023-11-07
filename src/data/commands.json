@@ -8,17 +8,17 @@
         "SKILLS..............Displays my tech stack",
         "",
         "Settings:",
-        "FONT................Sets the font size for the terminal",
+        "CLEAR...............Resets the terminal to initial window",
         "HEADER..............Sets the header for the terminal",
         "THEME...............Sets the colour scheme for the terminal",
         "",
-        "For help about a specific command, type HELP <CMD>, e.g. HELP THEME."
+        "For help about the settings, type HELP <CMD>, e.g. HELP THEME."
     ],
     "EXPERIENCE": [
         "Work:",
         "Freelance Web Developer.........................2021-Present",
         "Teacher & Batch Manager @ Le Wagon..............2021 - Present",
-        "Freelance Copywriter( & Wordpress Dev)..........2018 - 2019",
+        "Freelance Copywriter (& Wordpress Dev)..........2018 - 2019",
         "Lead Copywriter & Marketer......................2017 - 2019",
         "",
         "Education:",

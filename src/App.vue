@@ -32,5 +32,8 @@ body {
     font-family: 'Roboto Mono', monospace;
     background: $backgroundColor;
     color: $fontColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
