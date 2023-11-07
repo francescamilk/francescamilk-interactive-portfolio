@@ -9,10 +9,12 @@
         "SKILLS..............Displays my tech stack",
         "",
         "Settings:",
-        "CLEAR...............Resets the terminal to initial window",
         "HEADER..............Sets the header for the terminal",
         "THEME...............Sets the colour scheme for the terminal",
         "",
+        "Utilities:",
+        "CLEAR...............Resets terminal to its initial window",
+        "SHARE...............Copies website URL to the clipboard",
         "For help about the settings, type HELP <CMD>, e.g. HELP THEME."
     ],
     "EXPERIENCE": [
@@ -30,5 +32,8 @@
     ],
     "CV": [
         "Resumé successfully downloaded!"
+    ],
+    "SHARE": [
+        "Website URL successfully copied!"
     ]
 }

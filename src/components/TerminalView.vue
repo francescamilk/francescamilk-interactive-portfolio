@@ -60,18 +60,8 @@ export default {
         },
         getInput(event) {
             if (event.key === 'Enter') {
-                if (this.currentInput.toUpperCase() === 'CLEAR') {
-                    this.clearPrevious()
-                } else if (this.currentInput.toUpperCase() === 'CV') {
-                    const props = {
-                        title: 'FSantoriello_FullStack_WebDeveloper.png', 
-                        src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png') 
-                    }
-                    this.downloadWithAxios(props.src, props.title)
-                    this.processInput()
-                } else {
-                    this.processInput()
-                }
+                const specialInputs = ['CLEAR', 'CV', 'SHARE']
+                specialInputs.includes(this.currentInput.toUpperCase()) ? this.processSpecialInputs() : this.processInput()
             } if (event.key === 'ArrowUp' && this. isSafeToArrow()) {
                 this.currentInput = this.previous[this.arrowCounter].input
                 this.increaseArrowCounter()
@@ -137,6 +127,30 @@ export default {
             this.computeOutput()
             this.currentInput = ''
             this.resetArrowCounter()
+        },
+        processSpecialInputs() {
+            const sanitisedInput = this.currentInput.toUpperCase()
+            const fileProps = {
+                title: 'FSantoriello_FullStack_WebDeveloper.png',
+                src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png')
+            }
+            
+            switch (sanitisedInput) {
+                case 'CLEAR':
+                    this.clearPrevious()
+                    break
+                case 'CV':
+                    this.downloadWithAxios(fileProps.src, fileProps.title)
+                    this.processInput()
+                    break
+                case 'SHARE':
+                    this.copyURLToClipboard()
+                    this.processInput()
+                    break
+            }
+        },
+        copyURLToClipboard() {
+            navigator.clipboard.writeText(window.location.href)
         }
     },
     mounted() {
@@ -175,7 +189,7 @@ export default {
         box-shadow: none;
         border: none;
         outline: none;
-        padding-left: 1rem;
+        padding-left: .6rem;
     }
     
 }
