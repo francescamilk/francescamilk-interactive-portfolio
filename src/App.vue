@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import TerminalView from './components/TerminalView.vue'
+import TerminalView from '@/components/TerminalView'
 
 export default {
     components: {
@@ -12,8 +12,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;400;600;700&display=swap');
+@import '@/assets/config/variables.scss';
 
 body {
     margin: 0;
@@ -27,8 +28,8 @@ body {
     min-width: 100vw;
     min-height: 100vh;
     font-family: 'Roboto Mono', monospace;
-    background: #222333;
-    color: #EDF4F4;
+    background: $backgroundColor;
+    color: $fontColor;
     padding: 2rem;
 }
 </style>
