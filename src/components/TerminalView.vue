@@ -2,7 +2,7 @@
     <div id="frame">
         <div id="terminal">
             <section id="terminalHeader">
-                <h1 class="txt header">Francesca Milk's Interactive Portfolio</h1>
+                <h1 class="txt header">{{ header }}</h1>
                 <p class="txt header">Type HELP to see the full list of commands.</p>
             </section>
             <section id="previous" v-for="io in previous" :key="io">
@@ -40,6 +40,7 @@ import axios from 'axios'
 export default {
     data() {
         return {
+            header: 'Francesca Milk\'s Interactive Portfolio',
             agency: null,
             currentInput: '',
             arrowCounter: 0,
@@ -60,12 +61,39 @@ export default {
         },
         getInput(event) {
             if (event.key === 'Enter') {
-                const specialInputs = ['CLEAR', 'CV', 'SHARE']
-                specialInputs.includes(this.currentInput.toUpperCase()) ? this.processSpecialInputs() : this.processInput()
+                const specialInputs = ['CLEAR', 'CV', 'SHARE', 'HEADER']
+                const sanitisedInput = this.currentInput.toUpperCase().split(' ')[0]
+
+                specialInputs.includes(sanitisedInput) ? this.processSpecialInputs() : this.processInput()
             } if (event.key === 'ArrowUp' && this. isSafeToArrow()) {
                 this.currentInput = this.previous[this.arrowCounter].input
                 this.increaseArrowCounter()
             } 
+        },
+        processInput(shouldItCompute) {
+            shouldItCompute ? this.computeOutput() : 
+            this.currentInput = ''
+            this.resetArrowCounter()
+        },
+        processSpecialInputs() {
+            const sanitisedInput = this.currentInput.toUpperCase()
+            const fileProps = {
+                title: 'FSantoriello_FullStack_WebDeveloper.png',
+                src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png')
+            }
+
+            if (sanitisedInput === 'CLEAR') {
+                this.clearPrevious()
+            } else if (sanitisedInput === 'CV') {
+                this.downloadWithAxios(fileProps.src, fileProps.title)
+                this.processInput(true)
+            } else if (sanitisedInput === 'SHARE') {
+                this.copyURLToClipboard()
+                this.processInput(true)
+            } else if (sanitisedInput.includes('HEADER')) {
+                this.setCustomHeader()
+                this.processInput(false)
+            }
         },
         computeOutput() {
             const output = this.commands[this.currentInput.toUpperCase()]
@@ -78,8 +106,10 @@ export default {
                 input: this.currentInput,
                 output: output ? output : error
             }
+
             this.previous.push(inputOutput)
             this.resetArrowCounter()
+
             this.$nextTick(() => {
                 this.scrollToBottom()
             })        
@@ -103,12 +133,15 @@ export default {
             })
             .catch(() => console.log('Error during download'))
         },
-        scrollToBottom() {
-            const terminal = this.$el.querySelector('#terminal')
-            terminal.scrollIntoView({ block: 'end' })
+        clearPrevious() {
+            this.previous.splice(0, this.previous.length)
+            this.currentInput = ''
         },
-        focusInput() {
-            this.$refs.inputElement.focus()
+        copyURLToClipboard() {
+            navigator.clipboard.writeText(window.location.href)
+        },
+        setCustomHeader() {
+            this.header = this.currentInput
         },
         resetArrowCounter() {
             this.arrowCounter = this.previous.length - 1
@@ -119,39 +152,13 @@ export default {
         isSafeToArrow() {
             return this.previous.length > 0 && this.arrowCounter >= 0
         },
-        clearPrevious() {
-            this.previous.splice(0, this.previous.length)
-            this.currentInput = ''
+        scrollToBottom() {
+            const terminal = this.$el.querySelector('#terminal')
+            terminal.scrollIntoView({ block: 'end' })
         },
-        processInput() {
-            this.computeOutput()
-            this.currentInput = ''
-            this.resetArrowCounter()
+        focusInput() {
+            this.$refs.inputElement.focus()
         },
-        processSpecialInputs() {
-            const sanitisedInput = this.currentInput.toUpperCase()
-            const fileProps = {
-                title: 'FSantoriello_FullStack_WebDeveloper.png',
-                src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png')
-            }
-            
-            switch (sanitisedInput) {
-                case 'CLEAR':
-                    this.clearPrevious()
-                    break
-                case 'CV':
-                    this.downloadWithAxios(fileProps.src, fileProps.title)
-                    this.processInput()
-                    break
-                case 'SHARE':
-                    this.copyURLToClipboard()
-                    this.processInput()
-                    break
-            }
-        },
-        copyURLToClipboard() {
-            navigator.clipboard.writeText(window.location.href)
-        }
     },
     mounted() {
         this.agency = this.getAgency()
