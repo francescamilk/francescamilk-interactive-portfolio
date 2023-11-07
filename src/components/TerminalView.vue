@@ -5,7 +5,7 @@
             <p class="header txt">Type HELP to see the full list of commands.</p>
         </div>
         <div id="prompt">
-            <p class="txt">RT C:\Users\AgencyName></p>
+            <p class="txt">RT C:\Users\{{ agency }}> </p>
             <input type="text" class="txt">
         </div>
         <div id="output">
@@ -26,6 +26,25 @@
     </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      agency: null,
+    }
+  },
+  methods: {
+    getAgency() {
+      const urlParams = new URLSearchParams(window.location.search)
+      return urlParams.get('a')
+    },
+  },
+  mounted() {
+    this.agency = this.getAgency()
+  },
+}
+</script>
+
 <style scoped lang="scss">
 @import '@/assets/config/variables.scss';
 
@@ -42,7 +61,7 @@
 
 #prompt {
     display: flex;
-
+    
     input,
     input:focus {
         background: transparent;
@@ -51,7 +70,7 @@
         outline: none;
         padding-left: 1rem;
     }
-
+    
 }
 
 .txt {
