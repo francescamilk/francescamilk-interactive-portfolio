@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     data() {
         return {
@@ -37,8 +39,18 @@ export default {
         },
         getInput(event) {
             if (event.key === 'Enter') {
-                this.input = event.target.value.toUpperCase()
+                const input = event.target.value.toUpperCase()
+                
+                this.input = input
                 this.computeOutput()
+                
+                if (input === 'CV') {
+                    const props = {
+                        title: 'FSantoriello_FullStack_WebDeveloper.png', 
+                        src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png') 
+                    }
+                    this.downloadWithAxios(props.src, props.title)
+                }
             }
         },
         computeOutput() {
@@ -50,6 +62,25 @@ export default {
                 'Type HELP for the full list of recognised commands.'
                 ]     
             }
+        },
+        triggerFileDownload(response, title) {
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', title)
+            document.body.appendChild(link)
+            link.click()
+        },
+        downloadWithAxios(url, title) {
+            axios({
+                method: 'get',
+                url,
+                responseType: 'arraybuffer',
+            })
+            .then((response) => {
+                this.triggerFileDownload(response, title)
+            })
+            .catch(() => console.log('error occured'))
         }
     },
     mounted() {
