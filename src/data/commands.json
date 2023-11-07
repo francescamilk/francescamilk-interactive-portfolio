@@ -35,5 +35,8 @@
     ],
     "SHARE": [
         "Website URL successfully copied!"
+    ],
+    "HELP HEADER": [
+        "Enter HEADER <YOUR_HEADER> to set a custom header for the terminal."
     ]
 }

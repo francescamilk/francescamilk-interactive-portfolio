@@ -64,14 +64,16 @@ export default {
                 const specialInputs = ['CLEAR', 'CV', 'SHARE', 'HEADER']
                 const sanitisedInput = this.currentInput.toUpperCase().split(' ')[0]
 
-                specialInputs.includes(sanitisedInput) ? this.processSpecialInputs() : this.processInput()
+                specialInputs.includes(sanitisedInput) ? this.processSpecialInputs() : this.processInput(true)
             } if (event.key === 'ArrowUp' && this. isSafeToArrow()) {
                 this.currentInput = this.previous[this.arrowCounter].input
                 this.increaseArrowCounter()
             } 
         },
         processInput(shouldItCompute) {
-            shouldItCompute ? this.computeOutput() : 
+            if (shouldItCompute) {
+                this.computeOutput()
+            }
             this.currentInput = ''
             this.resetArrowCounter()
         },
@@ -141,7 +143,8 @@ export default {
             navigator.clipboard.writeText(window.location.href)
         },
         setCustomHeader() {
-            this.header = this.currentInput
+            this.header = this.currentInput.substring(7)
+            this.clearPrevious()
         },
         resetArrowCounter() {
             this.arrowCounter = this.previous.length - 1
@@ -196,6 +199,7 @@ export default {
         box-shadow: none;
         border: none;
         outline: none;
+        width: 80%;
         padding-left: .6rem;
     }
     
