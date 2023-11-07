@@ -13,13 +13,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;400;600;700&display=swap');
-@import '@/assets/config/variables.scss';
-
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
 }
 
 #app {
@@ -29,11 +25,9 @@ body {
     min-height: 100vh;
     max-width: 100vw;
     max-height: 100vh;
-    font-family: 'Roboto Mono', monospace;
-    background: $backgroundColor;
-    color: $fontColor;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 </style>

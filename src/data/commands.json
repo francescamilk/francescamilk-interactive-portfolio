@@ -1,20 +1,21 @@
 {
     "HELP": [
         "Main commands:",
-        "ABOUT...............Displays an introduction about me",
-        "CONTACT.............Displays my contact information",
-        "CV..................Downloads a copy of my resumé",
-        "EXPERIENCE..........Displays my professional experience",
-        "PROJECTS............Displays my past freelance projects",
-        "SKILLS..............Displays my tech stack",
-        "",
-        "Settings:",
-        "HEADER..............Sets the header for the terminal",
-        "THEME...............Sets the colour scheme for the terminal",
+        "ABOUT.................Displays an introduction about me",
+        "CONTACT...............Displays my contact information",
+        "EXPERIENCE............Displays my professional experience",
+        "PROJECTS..............Displays my past freelance projects",
+        "SKILLS................Displays my tech stack",
         "",
         "Utilities:",
-        "CLEAR...............Resets terminal to its initial window",
-        "SHARE...............Copies website URL to the clipboard",
+        "CV....................Downloads a copy of my resumé",
+        "SHARE.................Copies website URL to the clipboard",
+        "",
+        "Settings:",
+        "CLEAR.................Resets terminal to its initial window",
+        "HEADER................Sets the header for the terminal",
+        "THEME.................Sets the colour scheme for the terminal",
+        "",
         "For help about the settings, type HELP <CMD>, e.g. HELP THEME."
     ],
     "EXPERIENCE": [
@@ -36,7 +37,29 @@
     "SHARE": [
         "Website URL successfully copied!"
     ],
+    "HELP CLEAR": [
+        "Enter CLEAR to clean the history of the terminal."
+    ],
     "HELP HEADER": [
         "Enter HEADER <YOUR_HEADER> to set a custom header for the terminal."
+    ],
+    "HELP THEME": [
+        "Enter THEME <OPTION> to set the color theme for the terminal.",
+        "",
+        "Options:",
+        "D|DARK...............Sets the color scheme to dark mode",
+        "L|LIGHT..............Sets the color scheme to light mode"
+    ],
+    "THEME DARK": [
+        "Terminal successfully updated to dark mode!"
+    ],
+    "THEME D": [
+        "Terminal successfully updated to dark mode!"
+    ],
+    "THEME LIGHT": [
+        "Terminal successfully updated to light mode!"
+    ],
+    "THEME L": [
+        "Terminal successfully updated to light mode!"
     ]
 }

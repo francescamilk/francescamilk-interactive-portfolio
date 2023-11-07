@@ -7,7 +7,7 @@
             </section>
             <section id="previous" v-for="io in previous" :key="io">
                 <div class="prompt">
-                    <p class="txt">RT C:\Users\{{ agency }}> </p>
+                    <p class="txt"> RT C:\Users\{{ agency }}> </p>
                     <p class="txt command">{{ io.input }}</p>
                 </div>
                 <div class="output" v-for="line in io.output" :key="line">
@@ -24,9 +24,9 @@
                 <div class="prompt">
                     <p class="txt">RT C:\Users\{{ agency }}> </p>
                     <input type="text" class="txt"
-                    v-model="currentInput"
-                    @keydown="getInput"
-                    ref="inputElement"
+                        v-model="currentInput"
+                        @keydown="getInput"
+                        ref="inputElement"
                     >
                 </div>
             </section>
@@ -41,6 +41,7 @@ export default {
     data() {
         return {
             header: 'Francesca Milk\'s Interactive Portfolio',
+            theme: 'dark',
             agency: null,
             currentInput: '',
             arrowCounter: 0,
@@ -61,11 +62,11 @@ export default {
         },
         getInput(event) {
             if (event.key === 'Enter') {
-                const specialInputs = ['CLEAR', 'CV', 'SHARE', 'HEADER']
+                const specialInputs = ['CLEAR', 'CV', 'SHARE', 'HEADER', 'THEME']
                 const sanitisedInput = this.currentInput.toUpperCase().split(' ')[0]
 
-                specialInputs.includes(sanitisedInput) ? this.processSpecialInputs() : this.processInput(true)
-            } if (event.key === 'ArrowUp' && this. isSafeToArrow()) {
+                specialInputs.includes(sanitisedInput) ? this.processSpecialInputs(sanitisedInput) : this.processInput(true)
+            } if (event.key === 'ArrowUp' && this.isSafeToArrow()) {
                 this.currentInput = this.previous[this.arrowCounter].input
                 this.increaseArrowCounter()
             } 
@@ -77,24 +78,31 @@ export default {
             this.currentInput = ''
             this.resetArrowCounter()
         },
-        processSpecialInputs() {
-            const sanitisedInput = this.currentInput.toUpperCase()
-            const fileProps = {
-                title: 'FSantoriello_FullStack_WebDeveloper.png',
-                src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png')
-            }
-
+        processSpecialInputs(sanitisedInput) {
             if (sanitisedInput === 'CLEAR') {
                 this.clearPrevious()
             } else if (sanitisedInput === 'CV') {
+                const fileProps = {
+                    title: 'FSantoriello_FullStack_WebDeveloper.png',
+                    src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png')
+                }
+
                 this.downloadWithAxios(fileProps.src, fileProps.title)
                 this.processInput(true)
             } else if (sanitisedInput === 'SHARE') {
                 this.copyURLToClipboard()
                 this.processInput(true)
-            } else if (sanitisedInput.includes('HEADER')) {
+            } else if (sanitisedInput === 'HEADER') {
                 this.setCustomHeader()
                 this.processInput(false)
+            } else if (sanitisedInput === 'THEME') {
+                const splitInput = this.currentInput.split(' ')
+                const chosenTheme = splitInput[splitInput.length - 1].toUpperCase()
+
+                if (this.isValidTheme(chosenTheme)) {
+                    this.switchTheme(chosenTheme)
+                }
+                this.processInput(true)
             }
         },
         computeOutput() {
@@ -111,7 +119,6 @@ export default {
 
             this.previous.push(inputOutput)
             this.resetArrowCounter()
-
             this.$nextTick(() => {
                 this.scrollToBottom()
             })        
@@ -135,16 +142,28 @@ export default {
             })
             .catch(() => console.log('Error during download'))
         },
+        copyURLToClipboard() {
+            navigator.clipboard.writeText(window.location.href)
+        },
         clearPrevious() {
             this.previous.splice(0, this.previous.length)
             this.currentInput = ''
         },
-        copyURLToClipboard() {
-            navigator.clipboard.writeText(window.location.href)
-        },
         setCustomHeader() {
             this.header = this.currentInput.substring(7)
             this.clearPrevious()
+        },
+        switchTheme(theme) {
+            const chosenTheme = theme.includes('D') ? 'dark' : 'light'
+            this.theme = chosenTheme
+        },
+        isValidTheme(theme) {
+            const validThemes = ['DARK', 'D', 'LIGHT', 'L']
+            return validThemes.includes(theme)
+        },
+        scrollToBottom() {
+            const terminal = this.$el.querySelector('#terminal')
+            terminal.scrollIntoView({ block: 'end' })
         },
         resetArrowCounter() {
             this.arrowCounter = this.previous.length - 1
@@ -154,10 +173,6 @@ export default {
         },
         isSafeToArrow() {
             return this.previous.length > 0 && this.arrowCounter >= 0
-        },
-        scrollToBottom() {
-            const terminal = this.$el.querySelector('#terminal')
-            terminal.scrollIntoView({ block: 'end' })
         },
         focusInput() {
             this.$refs.inputElement.focus()
@@ -179,6 +194,7 @@ export default {
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
+    background: $backgroundColor;
 }
 
 #terminal {
