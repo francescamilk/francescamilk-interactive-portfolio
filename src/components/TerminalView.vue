@@ -24,9 +24,9 @@
                 <div class="prompt">
                     <p class="txt">RT C:\Users\{{ agency }}> </p>
                     <input type="text" class="txt"
-                        v-model="currentInput"
-                        @keydown="getInput"
-                        ref="inputElement"
+                    v-model="currentInput"
+                    @keydown="getInput"
+                    ref="inputElement"
                     >
                 </div>
             </section>
@@ -68,15 +68,14 @@ export default {
                         src: require('@/assets/files/FSantoriello_FullStack_WebDeveloper.png') 
                     }
                     this.downloadWithAxios(props.src, props.title)
+                    this.processInput()
                 } else {
-                    this.computeOutput()
-                    this.currentInput = ''
-                    this.resetArrowCounter()
+                    this.processInput()
                 }
-            } else if (event.key === 'ArrowUp' && this. isSafeToArrow()) {
+            } if (event.key === 'ArrowUp' && this. isSafeToArrow()) {
                 this.currentInput = this.previous[this.arrowCounter].input
                 this.increaseArrowCounter()
-            }
+            } 
         },
         computeOutput() {
             const output = this.commands[this.currentInput.toUpperCase()]
@@ -133,6 +132,11 @@ export default {
         clearPrevious() {
             this.previous.splice(0, this.previous.length)
             this.currentInput = ''
+        },
+        processInput() {
+            this.computeOutput()
+            this.currentInput = ''
+            this.resetArrowCounter()
         }
     },
     mounted() {
