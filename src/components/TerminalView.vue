@@ -9,7 +9,13 @@
             <input type="text" class="txt" @keydown.enter="getInput">
         </div>
         <div id="output" v-for="line in output" :key="line">
-            <p class="txt" :class="{ 'error': line.includes('recognised') }">{{ line ? line : '\u00A0' }}</p>
+            <p :class="{ 
+                'txt': true, 
+                'error': line.includes('recognised'),
+                'success': line.includes('successfully') }
+            ">
+                {{ line ? line : '\u00A0' }}
+            </p>
         </div>
     </div>
 </template>
@@ -74,7 +80,7 @@ export default {
         downloadWithAxios(url, title) {
             axios({
                 method: 'get',
-                url,
+                url: url,
                 responseType: 'arraybuffer',
             })
             .then((response) => {
@@ -132,6 +138,11 @@ export default {
 
 .error {
     color: $errorColor;
+    font-weight: 300;
+}
+
+.success {
+    color: $successColor;
     font-weight: 300;
 }
 </style>
