@@ -6,11 +6,13 @@
         "CV..................Downloads a copy of my resumé",
         "EXPERIENCE..........Displays my professional experience",
         "SKILLS..............Displays my tech stack",
-        " ",
+        "",
         "Settings:",
         "FONT................Sets the font size for the terminal",
         "HEADER..............Sets the header for the terminal",
-        "THEME...............Sets the colour scheme for the terminal"
+        "THEME...............Sets the colour scheme for the terminal",
+        "",
+        "For help about a specific command, type HELP <CMD>, e.g. HELP THEME."
     ],
     "EXPERIENCE": [
         "Work:",
@@ -18,7 +20,7 @@
         "Teacher & Batch Manager @ Le Wagon..............2021 - Present",
         "Freelance Copywriter( & Wordpress Dev)..........2018 - 2019",
         "Lead Copywriter & Marketer......................2017 - 2019",
-        " ",
+        "",
         "Education:",
         "UX / UI Online Specialization...................California Institue of Arts",
         "Full - Stack Web Development Bootcamp...........Le Wagon",

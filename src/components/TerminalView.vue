@@ -9,7 +9,7 @@
             <input type="text" class="txt" @keydown.enter="getInput">
         </div>
         <div id="output" v-for="line in output" :key="line">
-            <p class="txt">{{ line }}</p>
+            <p class="txt" :class="{ 'error': line.includes('recognised') }">{{ line ? line : '\u00A0' }}</p>
         </div>
     </div>
 </template>
@@ -42,7 +42,14 @@ export default {
             }
         },
         computeOutput() {
-            this.output = this.commands[this.input]
+            if (this.commands[this.input]) {
+                this.output = this.commands[this.input]
+            } else {
+                this.output = [
+                `FATAL; The term or expression '${this.input}' is not recognised. `,
+                'Type HELP for the full list of recognised commands.'
+                ]     
+            }
         }
     },
     mounted() {
@@ -90,5 +97,10 @@ export default {
 .header {
     font-size: calc(#{$fontSize} - #{.5 * 0.01} * #{$fontSize});
     font-weight: 200;
+}
+
+.error {
+    color: $errorColor;
+    font-weight: 300;
 }
 </style>
