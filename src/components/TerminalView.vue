@@ -71,8 +71,8 @@ export default {
                 this.increaseArrowCounter()
             } 
         },
-        processInput(shouldItCompute) {
-            if (shouldItCompute) {
+        processInput(shouldCompute) {
+            if (shouldCompute) {
                 this.computeOutput()
             }
             this.currentInput = ''
@@ -145,10 +145,6 @@ export default {
         copyURLToClipboard() {
             navigator.clipboard.writeText(window.location.href)
         },
-        clearPrevious() {
-            this.previous.splice(0, this.previous.length)
-            this.currentInput = ''
-        },
         setCustomHeader() {
             this.header = this.currentInput.substring(7)
             this.clearPrevious()
@@ -160,6 +156,10 @@ export default {
         isValidTheme(theme) {
             const validThemes = ['DARK', 'D', 'LIGHT', 'L']
             return validThemes.includes(theme)
+        },
+        clearPrevious() {
+            this.previous.splice(0, this.previous.length)
+            this.currentInput = ''
         },
         scrollToBottom() {
             const terminal = this.$el.querySelector('#terminal')

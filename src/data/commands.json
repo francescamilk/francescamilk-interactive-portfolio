@@ -1,35 +1,78 @@
 {
     "HELP": [
-        "Main commands:",
+        "— MAIN COMMANDS —",
         "ABOUT.................Displays an introduction about me",
         "CONTACT...............Displays my contact information",
         "EXPERIENCE............Displays my professional experience",
         "PROJECTS..............Displays my past freelance projects",
         "SKILLS................Displays my tech stack",
         "",
-        "Utilities:",
+        "— UTILITIES —",
         "CV....................Downloads a copy of my resumé",
         "SHARE.................Copies website URL to the clipboard",
         "",
-        "Settings:",
+        "— SETTINGS —",
         "CLEAR.................Resets terminal to its initial window",
         "HEADER................Sets the header for the terminal",
         "THEME.................Sets the colour scheme for the terminal",
         "",
         "For help about the settings, type HELP <CMD>, e.g. HELP THEME."
     ],
+    "ABOUT": [
+
+    ],
+    "CONTACT": [
+        "— CONTACTS —",
+        "Email.............<efsantoriello@gmail.com>",
+        "Linkedin..........<@f-santoriello>",
+        "GitHub............<@francescamilk>",
+        "",
+        "Tip: type OPEN <$CONTACT> to open a link."
+    ],
     "EXPERIENCE": [
-        "Work:",
+        "— WORK —",
         "Freelance Web Developer.........................2021-Present",
         "Teacher & Batch Manager @ Le Wagon..............2021 - Present",
         "Freelance Copywriter (& Wordpress Dev)..........2018 - 2019",
         "Lead Copywriter & Marketer......................2017 - 2019",
         "",
-        "Education:",
+        "— EDUCATION —",
         "UX / UI Online Specialization...................California Institue of Arts",
         "Full - Stack Web Development Bootcamp...........Le Wagon",
         "Ecommerce & SEO Technical Course................Euroqualità",
         "Graphics & Advertising..........................High School Diploma"
+    ],
+    "PROJECTS": [
+        "— COMMERCIAL PROJECTS —",
+        "POCK'T.........2023.........2 dev(s)",
+        "",
+        "Stack:",
+        "",
+        "Bamboe.........2022.........4 dev(s)",
+        "",
+        "Stack:",
+        "",
+        "Studiottico....2022.........1 dev(s)",
+        "",
+        "Stack:",
+        "",
+        "Kotch CMS......2021.........3 dev(s)",
+        "",
+        "Stack:",
+        "",
+        "CM Coaching....2021.........2 dev(s)",
+        "",
+        "Stack:"
+    ],
+    "SKILLS": [
+        "— BACK END —",
+        "",
+        "",
+        "— FRONT END —",
+        "",
+        "",
+        "— TECHNOLOGIES —",
+        ""
     ],
     "CV": [
         "Resumé successfully downloaded!"
@@ -38,15 +81,15 @@
         "Website URL successfully copied!"
     ],
     "HELP CLEAR": [
-        "Enter CLEAR to clean the history of the terminal."
+        "Type CLEAR to clean the history of the terminal."
     ],
     "HELP HEADER": [
-        "Enter HEADER <YOUR_HEADER> to set a custom header for the terminal."
+        "Type HEADER <$YOUR_HEADER> to set a custom header for the terminal."
     ],
     "HELP THEME": [
-        "Enter THEME <OPTION> to set the color theme for the terminal.",
+        "Type THEME <$OPTION> to set the color theme for the terminal.",
         "",
-        "Options:",
+        "— OPTIONS —",
         "D|DARK...............Sets the color scheme to dark mode",
         "L|LIGHT..............Sets the color scheme to light mode"
     ],
